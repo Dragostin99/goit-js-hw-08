@@ -3,6 +3,10 @@
   --animation-duration: 250ms;
 }
 
+ul {
+  list-style: none;
+}
+
 .gallery {
   display: grid;
   max-width: 1140px;
@@ -12,7 +16,6 @@
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
-  list-style: none;
 }
 
 .gallery__item {

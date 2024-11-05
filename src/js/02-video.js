@@ -1,20 +1,14 @@
+import getElement from './getElement.js';
+import Vimeo from '@vimeo/player';
+import onPlay from './video-task/set-to-local-storage.js';
+export const localStorageTimeKey = 'videoplayer-current-time';
+const iframe = getElement('#vimeo-player');
+const player = new Vimeo(iframe);
 
-import Player from '@vimeo/player';
-import throttle from 'lodash.throttle';
-
-const iframe = document.getElementById('vimeo-player');
-const player = new Player(iframe);
-
-const LOCAL_STORAGE_KEY = 'videoplayer-current-time';
-
-
-player.on('timeupdate', throttle((event) => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, event.seconds);
-}, 1000));
-
-const savedTime = localStorage.getItem(LOCAL_STORAGE_KEY);
-if (savedTime) {
-  player.setCurrentTime(savedTime).catch((error) => {
-    console.error('Failed to set current time:', error);
-  });
+player.on('timeupdate', onPlay);
+try {
+  const time = JSON.parse(localStorage.getItem(localStorageTimeKey));
+  player.setCurrentTime(time);
+} catch (err) {
+  console.log(err);
 }
